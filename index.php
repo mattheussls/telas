@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HM Rede e Telas | Conforto e Segurança para seu Lar</title>
+    
+    <!-- Tipografia Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           VARIÁVEIS E RESET
+        ========================================= */
+        :root {
+            --orange: #FF6B00; 
+            --orange-hover: #e55f00;
+            --dark: #121214;
+            --gray-text: #6b6b78;
+            --light: #FFFFFF;
+            --neutral: #F4F5F7;
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; }
+        ul { list-style: none; }
+
+        /* =========================================
+           ANIMAÇÕES
+        ========================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes slideRight {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(6px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* =========================================
+           CABEÇALHO (NAVBAR)
+        ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 80px; 
+            object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0px 10px 15px rgba(255, 107, 0, 0.25));
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0px 15px 20px rgba(255, 107, 0, 0.4));
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 107, 0, 0.3);
+        }
+
+        /* =========================================
+           SESSÃO 1: HERO
+        ========================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 50px;
+            gap: 50px;
+            background-color: var(--light);
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 650px;
+        }
+
+        .hero-subtitle {
+            color: var(--orange);
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.05;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--gray-text);
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            height: 75vh;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* =========================================
+           SESSÃO 2: BENEFÍCIOS
+        ========================================= */
+        .benefits {
+            position: relative;
+            padding: 120px 5%;
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .benefits-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: fadeSlider 18s infinite;
+        }
+
+        .slide-bg:nth-child(1) {
+            background-image: url('img/criancas.png'); 
+            animation-delay: 0s;
+        }
+        .slide-bg:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=1920&auto=format&fit=crop'); 
+            animation-delay: 6s;
+        }
+        .slide-bg:nth-child(3) {
+            background-image: url('img/apartamento.jpg'); 
+            animation-delay: 12s;
+        }
+
+        @keyframes fadeSlider {
+            0% { opacity: 0; transform: scale(1); }
+            10% { opacity: 1; }
+            33% { opacity: 1; }
+            40% { opacity: 0; transform: scale(1.08); }
+            100% { opacity: 0; }
+        }
+
+        .benefits-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 18, 0.75); 
+            backdrop-filter: blur(3px); 
+            z-index: 1;
+        }
+
+        .benefits-content {
+            position: relative;
+            z-index: 2; 
+        }
+
+        .benefits .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .benefits .section-desc {
+            color: #d1d1d6;
+            max-width: 650px;
+            margin: 0 auto 70px auto;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 24px;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 107, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--orange);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(255, 107, 0, 0.3);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .benefit-card p {
+            color: #b0b0b8;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* =========================================
+           SESSÃO 3: SERVIÇOS
+        ========================================= */
+        .services {
+            padding: 120px 5%;
+            background-color: var(--neutral);
+        }
+
+        .service-row {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            margin-bottom: 120px;
+        }
+
+        .service-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .service-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .service-images {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        /* Desloca a segunda imagem para baixo no Desktop */
+        .service-images .img-box:nth-child(2) {
+            margin-top: 40px;
+        }
+
+        .img-box {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            height: 400px;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .img-box:hover img {
+            transform: scale(1.08);
+        }
+
+        .service-info {
+            flex: 1;
+        }
+
+        .service-info h2 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .service-info p {
+            color: var(--gray-text);
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        /* Esconde a dica de scroll no Desktop */
+        .scroll-hint {
+            display: none;
+        }
+
+        /* =========================================
+           SESSÃO 4: RODAPÉ / CONTATO
+        ========================================= */
+        footer {
+            background-color: var(--dark);
+            color: #fff;
+            padding: 100px 5% 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        footer h2 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        footer p {
+            color: #A0A0AB;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .info-item h4 {
+            color: var(--orange);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .info-item p {
+            margin-bottom: 5px;
+            font-size: 1.05rem;
+            color: #b0b0b8;
+        }
+
+        /* =========================================
+           BOTÃO WHATSAPP FLUTUANTE
+        ========================================= */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15) rotate(5deg);
+            color: white;
+        }
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE)
+        ========================================= */
+        @media (max-width: 968px) {
+            header { padding: 10px 5%; }
+            .logo { height: 50px; } 
+            .btn-primary { padding: 12px 20px; font-size: 0.8rem; }
+
+            /* Ajustes Finos na Hero para Celular */
+            .hero { flex-direction: column; height: auto; padding-top: 120px; text-align: left; gap: 30px;}
+            .hero-content { max-width: 100%; }
+            .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
+            .hero p { font-size: 1.05rem; margin-bottom: 30px; }
+            .hero-image { height: 45vh; width: 100%; margin-top: 0; }
+            
+            /* Ajustes Benefícios */
+            .benefits { padding: 80px 5%; }
+            .benefits .section-title { font-size: 2.2rem; }
+            .benefits .section-desc { font-size: 1rem; margin-bottom: 40px; }
+            .benefit-card { padding: 35px 25px; }
+            
+            /* Ajustes Serviços e Carrossel CSS Nativo */
+            .services { padding: 80px 5%; }
+            .service-row, .service-row.reverse { flex-direction: column; gap: 20px; margin-bottom: 80px; }
+            
+            .service-info { text-align: left; }
+            .service-info h2 { font-size: 2.2rem; margin-bottom: 15px; }
+            .service-info p { font-size: 1rem; margin-bottom: 25px; }
+            
+            /* Transforma o Grid em Slider no Mobile */
+            .service-images { 
+                display: flex; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                gap: 15px; 
+                padding-bottom: 10px;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; 
+            }
+            .service-images::-webkit-scrollbar { display: none; }
+            
+            .img-box { 
+                flex: 0 0 85%; /* Deixa a próxima imagem "espiando" */
+                scroll-snap-align: center; 
+                height: 280px; 
+            }
+            /* Remove a margem extra da segunda imagem no mobile */
+            .service-images .img-box:nth-child(2) { margin-top: 0; }
+            
+            /* Exibe a dica visual de arrastar apenas no mobile */
+            .scroll-hint {
+                display: block;
+                text-align: left;
+                font-size: 0.9rem;
+                color: var(--orange);
+                margin-top: 5px;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+            .scroll-hint i { margin-left: 8px; animation: slideRight 1.5s infinite; }
+            
+            /* Ajustes Rodapé */
+            footer { padding: 80px 5% 40px; }
+            footer h2 { font-size: 2.2rem; margin-bottom: 20px; }
+            footer p { font-size: 1rem; margin-bottom: 30px; }
+            .footer-info { flex-direction: column; gap: 30px; margin-top: 40px; padding-top: 40px; }
+            
+            .whatsapp-float { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <a href="#" class="logo-container">
+            <img src="img/logo.png" alt="HM Rede e Telas RJ" class="logo">
+        </a>
+        <!-- LINK DIRETO DO WHATSAPP -->
+        <a href="https://wa.me/5521997823566?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento!" target="_blank" class="btn-primary">
+            <i class="fa-brands fa-whatsapp"></i> Orçamento
+        </a>
+    </header>
+
+    <!-- SESSÃO 1: HERO -->
+    <section class="hero reveal">
+        <div class="hero-content">
+            <span class="hero-subtitle">HM Rede e Telas RJ</span>
+            <h1>Onde o conforto encontra a segurança.</h1>
+            <p>Mais do que instalar redes. Nós entregamos a paz de espírito que sua família merece, protegendo seu lar contra quedas e insetos com elegância, resistência e qualidade premium.</p>
+            <!-- LINK DIRETO DO WHATSAPP -->
+            <a href="https://wa.me/5521997823566?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento!" target="_blank" class="btn-primary" style="padding: 18px 40px; font-size: 1.1rem;">
+                Proteger meu Lar
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920&auto=format&fit=crop" alt="Janela segura e ambiente confortável">
+        </div>
+    </section>
+
+    <!-- SESSÃO 2: BENEFÍCIOS -->
+    <section class="benefits">
+        <div class="benefits-slider">
+            <div class="slide-bg"></div>
+            <div class="slide-bg"></div>
+            <div class="slide-bg"></div>
+        </div>
+        
+        <div class="benefits-overlay"></div>
+
+        <div class="benefits-content reveal">
+            <h2 class="section-title">A tranquilidade de um lar seguro</h2>
+            <p class="section-desc">Entendemos que sua casa é o seu santuário. Nossos serviços são desenhados para que você possa abrir suas janelas sem medo e sem incômodos.</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-child-reaching"></i></div>
+                    <h3>Para os pequenos</h3>
+                    <p>Liberdade para as crianças brincarem e explorarem cada canto da casa em total segurança. Telas que suportam alto impacto.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-cat"></i></div>
+                    <h3>Para os Pets</h3>
+                    <p>Seu amigo de quatro patas seguro nas alturas. Telas de altíssima resistência que suportam o instinto explorador e garras afiadas.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-moon"></i></div>
+                    <h3>Noites perfeitas</h3>
+                    <p>Mantenha sua casa ventilada e fresca o dia todo, com a garantia de um sono livre de mosquitos, insetos e preocupações.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 3: SERVIÇOS -->
+    <section class="services">
+        <!-- Redes de Proteção -->
+        <div class="service-row reveal">
+            <!-- Imagens (Grid no Desktop / Slider no Mobile) -->
+            <div class="service-images-wrapper" style="flex: 1;">
+                <div class="service-images">
+                    <div class="img-box"><img src="img/rede1.png" alt="Instalação de Rede de Proteção" onerror="this.src='https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop'"></div>
+                    <div class="img-box"><img src="img/rede2.png" alt="Detalhe da Rede" onerror="this.src='https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=800&auto=format&fit=crop'"></div>
+                </div>
+                <!-- Dica visual que só aparece no celular -->
+                <div class="scroll-hint">Deslize para ver mais <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+
+            <div class="service-info">
+                <h2>Redes de Proteção</h2>
+                <p>Trabalhamos com os melhores fios do mercado, equipados com tratamento UV e antioxidante. Instaladas com precisão milimétrica para não interferir na estética da sua varanda ou janela, garantindo que o visual incrível do Rio de Janeiro continue ali, mas com proteção máxima.</p>
+                <ul style="margin-bottom: 20px; color: var(--gray-text); line-height: 1.8;">
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Alta resistência à tração e peso contínuo</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Tratamento exclusivo contra ações do tempo</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Instalação estética, limpa e padronizada</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tela Mosquiteira -->
+        <div class="service-row reverse reveal">
+            <!-- Imagens (Grid no Desktop / Slider no Mobile) -->
+            <div class="service-images-wrapper" style="flex: 1;">
+                <div class="service-images">
+                    <div class="img-box"><img src="img/mosqueteira1.png" alt="Tela Mosquiteira" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop'"></div>
+                    <div class="img-box"><img src="img/mosqueteira2.png" alt="Detalhe Mosquiteira" onerror="this.src='https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=800&auto=format&fit=crop'"></div>
+                </div>
+                <!-- Dica visual que só aparece no celular -->
+                <div class="scroll-hint">Deslize para ver mais <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+
+            <div class="service-info">
+                <h2>Telas Mosquiteiras</h2>
+                <p>O fim dos inseticidas e das janelas fechadas no calor. Nossas telas mosquiteiras oferecem uma barreira invisível e sofisticada contra mosquitos (incluindo o da Dengue). Com estrutura discreta, elas permitem a circulação de ar puro sem bloquear a iluminação natural da sua casa.</p>
+                <ul style="margin-bottom: 20px; color: var(--gray-text); line-height: 1.8;">
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Esquadrias de alumínio sob medida</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Malha em fibra de vidro antialérgica</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--orange); margin-right: 12px; font-size: 1.2rem;"></i> Design modular: fácil de limpar e manusear</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 4: CONTATO E RODAPÉ -->
+    <footer id="contato" class="reveal">
+        <h2>Pronto para elevar a segurança da sua casa?</h2>
+        <p>Atendimento premium em todo o Rio de Janeiro. Solicite seu orçamento presencial ou online em minutos.</p>
+        <!-- LINK DIRETO DO WHATSAPP -->
+        <a href="https://wa.me/5521997823566?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento!" target="_blank" class="btn-primary" style="padding: 20px 50px; font-size: 1.25rem;">
+            <i class="fa-brands fa-whatsapp"></i> Falar com um Especialista
+        </a>
+
+        <div class="footer-info">
+            <div class="info-item">
+                <h4><i class="fa-solid fa-phone"></i> Contato Direto</h4>
+                <p>(21) 99782-3566</p>
+            </div>
+            <div class="info-item">
+                <h4><i class="fa-solid fa-clock"></i> Horários</h4>
+                <p>Seg a Sáb: 09h às 20h</p>
+                <p>Domingos: 10h às 15h</p>
+            </div>
+            <div class="info-item">
+                <h4><i class="fa-solid fa-map-location-dot"></i> Atuação</h4>
+                <p>Rio de Janeiro - RJ</p>
+                <p>Orçamentos no Local</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÃO FIXO WHATSAPP (LINK DIRETO) -->
+    <a href="https://wa.me/5521997823566?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento!" class="whatsapp-float" target="_blank" aria-label="Chamar no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPT DE ANIMAÇÃO DE SCROLL -->
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); 
+    </script>
+</body>
+</html>
